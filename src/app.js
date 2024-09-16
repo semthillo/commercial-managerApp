@@ -113,7 +113,28 @@ async function main() {
             const newAdress = readlineSync.question(
               "Nouvelle Adress du client: "
             );
-            const newEmail = readlineSync.question("Nouveau email: ");
+            
+    const newMail = await customerModule.getEmailClient();
+    let newMailExist = true;
+    let newEmail;
+
+    while (newMailExist) {
+        newEmail = readlineSync.question("newEmail du client: ");
+        newMailExist = false; // Réinitialiser la variable avant de vérifier
+
+        // Parcourir la liste des newEmails pour voir si l'newEmail existe déjà
+        for (let i = 0; i < newMail.length; i++) {
+            if (newEmail === newMail[i]) {
+                newMailExist = true; // Si l'newEmail existe, mettre newMailExist à true
+                break;
+            }
+        }
+
+        if (newMailExist) {
+            console.log(`L'newEmail ${newEmail} appartient déjà à un client. Veuillez réessayer.`);
+        }
+    }
+
             const newPhone = readlineSync.question(
               "Nouveau numero de téléphone: "
             );
