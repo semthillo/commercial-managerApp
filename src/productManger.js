@@ -82,6 +82,16 @@ async function destroyProduct(id) {
 }
 
 
+async function getCodeProduct() {
+    const connection = await pool.getConnection();
+    const [produit] = await connection.execute('SELECT barcode FROM products')
+        
+        const codes = produit.map(code => code.barcode); 
+    
+        
+        return codes;
+}
+
 
 
 module.exports = {
@@ -89,6 +99,7 @@ module.exports = {
     addProduct,
     destroyProduct,
     updateProduct,
-    getProduit
+    getProduit,
+    getCodeProduct
 
 }

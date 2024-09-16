@@ -106,6 +106,7 @@ module.exports = {
     destroyCustomer,
     updateCustomer,
     getClient,
-    getEmailClient
+    getEmailClient,
+    getPhoneClient
 
 }
