@@ -27,6 +27,7 @@ async function main() {
               console.log("5. Retourner Au Menu principal");
               console.log("6. Quitter");
               const choix = readlineSync.question("Choisissez une option :");
+              break;
 
             case "2":
                 console.log("1. Liste des produits");
@@ -37,8 +38,19 @@ async function main() {
                 console.log("6. Quitter");
                 const choix2 = readlineSync.question("Choisissez une option :");
             
-        
-        
+            
+                break;
+
+                case "3":
+                  console.log("1. Liste des commandes");
+                  console.log("D. Liste les details d'une commandes");
+                  console.log("2. Ajouter un commande");
+                  console.log("3. Modifier un commande");
+                  console.log("4. Supprimer un commande");
+                  console.log("5. Retourner Au Menu principal");
+                  console.log("6. Quitter");
+                  choixx = readlineSync.question("Choisissez une option :");
+          
             }
 
         
