@@ -18,9 +18,22 @@ async function main() {
     
         const choice = readlineSync.question("Choisissez une option : ");
 
+        switch (choice) {
+      case "1":
+        console.log("1. Liste des clients");
+        console.log("2. Ajouter un client");
+        console.log("3. Modifier un client");
+        console.log("4. Supprimer un client");
+        console.log("5. Retourner Au Menu principal");
+        console.log("6. Quitter");
+        const choix = readlineSync.question("Choisissez une option :");
+        break;
+        }
+
     } catch (error) {
         console.error("une Erreur est survenue veuillez relancer l'application", error);
       }
+
 }
     
     
