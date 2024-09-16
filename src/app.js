@@ -790,6 +790,45 @@ async function main() {
               
                           main();
                           break;
+                          case "4":
+
+                          const pay = await paymentModule.getpay();
+                          let cmdExistss = false;
+                          let deleteId;
+                
+                          while (!cmdExistss) {
+                            deleteId = readlineSync.question(`Entrez l'id du payement : `);
+                            deleteId = parseInt(deleteId);
+                            for (let i = 0; i < pay.length; i++) {
+                              if (deleteId === pay[i]) {
+                                cmdExistss = true;
+                                console.log("payement trouvé, id:", deleteId);
+                                break;
+                              }
+                            }
+                
+                            if (!cmdExistss) {
+                              console.log("Cette payement n'existe pas, veuillez réessayer.");
+                            }
+                          }
+                
+                            await paymentModule.destroyPayement(deleteId);
+                            console.log("Paiement supprimé");
+                            main();
+                            break;
+                
+                          case "5":
+                            main();
+                            break;
+                
+                          case "6":
+                            console.log("Au revoir !");
+                            break;
+                
+                          default:
+                            console.log("Veuillez choisir une option entre 1 et 6");
+                            main();
+                            break;
                         }
                         break;
                     case "5":
