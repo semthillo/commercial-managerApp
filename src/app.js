@@ -5,6 +5,17 @@ const orderModule = require("./orderManager");
 const paymentModule = require("./payementManager");
 
 
+function getValidInput(question) {
+    let input;
+    do {
+        input = readlineSync.question(question);
+        if (!input) {
+            console.log("Ce champ ne peut pas être vide, veuillez réessayer.");
+        }
+    } while (!input);
+    return input;
+}
+
 
 async function main() {
     try {
@@ -35,15 +46,15 @@ async function main() {
                   main();
                   break;
                   case "2":
-                    const name = readlineSync.question("Nom du client: ");
-                    const address = readlineSync.question("Address du  client: ");
+                    const name = getValidInput("Nom du client: ");
+                    const address = getValidInput("Address du  client: ");
                     const mail = await customerModule.getEmailClient()
                     
                     let mailExist = true;
                     let email;
                 
                     while (mailExist) {
-                        email = readlineSync.question("Email du client: ");
+                        email = getValidInput("Email du client: ");
                         mailExist = false;
                 
                         
@@ -63,10 +74,8 @@ async function main() {
                     let phone;
                 
                     while (phoneExist) {
-                        phone = readlineSync.question("Téléphone du client: ");
-                        phoneExist = false; // Réinitialiser la variable avant de vérifier
-                
-                        // Vérifier si le numéro de téléphone existe déjà
+                        phone = getValidInput("Téléphone du client: ");
+                        phoneExist = false;
                         for (let i = 0; i < phones.length; i++) {
                             if (phone === phones[i]) {
                                 phoneExist = true;
@@ -94,7 +103,7 @@ async function main() {
             let id;
 
             while (!cmdExists) {
-              id = readlineSync.question(`Entrez l'id du client : `);
+              id = getValidInput(`Entrez l'id du client : `);
               id = parseInt(id);
               for (let i = 0; i < clients.length; i++) {
                 if (id === clients[i]) {
@@ -109,8 +118,8 @@ async function main() {
               }
             }
 
-            const newName = readlineSync.question("Entrez le  nouveau nom: ");
-            const newAdress = readlineSync.question(
+            const newName = getValidInput("Entrez le  nouveau nom: ");
+            const newAdress = getValidInput(
               "Nouvelle Adress du client: "
             );
             
@@ -119,13 +128,11 @@ async function main() {
     let newEmail;
 
     while (newMailExist) {
-        newEmail = readlineSync.question("newEmail du client: ");
-        newMailExist = false; // Réinitialiser la variable avant de vérifier
-
-        // Parcourir la liste des newEmails pour voir si l'newEmail existe déjà
+        newEmail = getValidInput("newEmail du client: ");
+        newMailExist = false; 
         for (let i = 0; i < newMail.length; i++) {
             if (newEmail === newMail[i]) {
-                newMailExist = true; // Si l'newEmail existe, mettre newMailExist à true
+                newMailExist = true; 
                 break;
             }
         }
@@ -135,7 +142,7 @@ async function main() {
         }
     }
 
-            const newPhone = readlineSync.question(
+            const newPhone = getValidInput(
               "Nouveau numero de téléphone: "
             );
 
@@ -150,7 +157,7 @@ async function main() {
             main();
             break;
           case "4":
-            const deleteId = readlineSync.question(
+            const deleteId = getValidInput(
               "ID du client à supprimer: "
             );
             await customerModule.destroyCustomer(deleteId);
@@ -188,13 +195,13 @@ async function main() {
                       break;
           
                     case "2":
-                      const name = readlineSync.question("Nom du produit: ");
-                      const description = readlineSync.question(
+                      const name = getValidInput("Nom du produit: ");
+                      const description = getValidInput(
                         "description du  produit: "
                       );
                       let price;
                       while (true) {
-                        price = readlineSync.question("prix du produit: ");
+                        price = getValidInput("prix du produit: ");
                         if (!isNaN(price) && price.trim() !== "") {
                           price = parseFloat(price);
                           break;
@@ -204,7 +211,7 @@ async function main() {
           
                       let stock;
                       while (true) {
-                        stock = readlineSync.question("stock du produit: ");
+                        stock = getValidInput("stock du produit: ");
                         if (
                           !isNaN(stock) &&
                           Number.isInteger(parseFloat(stock)) &&
@@ -219,13 +226,13 @@ async function main() {
                       }
           
                       console.log(`Prix: ${price}, Stock: ${stock}`);
-                      const category = readlineSync.question("category du produit: ");
+                      const category = getValidInput("category du produit: ");
                       const barcodes = await productModule.getCodeProduct();
                       let barcodeExist = true;
                       let barcode;
                   
                       while (barcodeExist) {
-                          barcode = readlineSync.question("Barre-code du produit: ");
+                          barcode = getValidInput("Barre-code du produit: ");
                           barcodeExist = false; 
                           for (let i = 0; i < barcodes.length; i++) {
                               if (barcode === barcodes[i]) {
@@ -238,7 +245,7 @@ async function main() {
                               console.log(`Le code-barres ${barcode} appartient déjà à un autre produit. Veuillez réessayer.`);
                           }
                       }
-                      const status = readlineSync.question("status du produit: ");
+                      const status = getValidInput("status du produit: ");
                       const productId = await productModule.addProduct(
                         name,
                         description,
@@ -258,7 +265,7 @@ async function main() {
                       let id;
           
                       while (!cmdExists) {
-                        id = readlineSync.question(`Entrez l'id du produit : `);
+                        id = getValidInput(`Entrez l'id du produit : `);
                         id = parseInt(id);
                         for (let i = 0; i < prouit.length; i++) {
                           if (id === prouit[i]) {
@@ -272,15 +279,15 @@ async function main() {
                           console.log("Ce produit n'existe pas, veuillez réessayer.");
                         }
                       }
-                      const newName = readlineSync.question(
+                      const newName = getValidInput(
                         "Entrez le  nouveau nom du produit: "
                       );
-                      const newDescription = readlineSync.question(
+                      const newDescription = getValidInput(
                         "Nouvelle description du produit: "
                       );
                       let newPrice;
                       while (true) {
-                        newPrice = readlineSync.question("prix du produit: ");
+                        newPrice = getValidInput("prix du produit: ");
                         if (!isNaN(newPrice) && newPrice.trim() !== "") {
                           newPrice = parseFloat(newPrice);
                           break;
@@ -290,7 +297,7 @@ async function main() {
           
                       let newStock;
                       while (true) {
-                        newStock = readlineSync.question("newStock du produit: ");
+                        newStock = getValidInput("newStock du produit: ");
                         if (
                           !isNaN(newStock) &&
                           Number.isInteger(parseFloat(newStock)) &&
@@ -303,7 +310,7 @@ async function main() {
                           "Le stock doit etre un nombre."
                         );
                       }
-                      const newcategory = readlineSync.question(
+                      const newcategory = getValidInput(
                         "Nouvelle catégorie du produit: "
                       );
                       const newbBarcodes = await productModule.getCodeProduct();
@@ -311,7 +318,7 @@ let newBarcodeExist = true;
 let newBarcode;
 
 while (newBarcodeExist) {
-    newBarcode = readlineSync.question("Nouveau code-barres: ");
+    newBarcode = getValidInput("Nouveau code-barres: ");
     newBarcodeExist = false; 
     for (let i = 0; i < newbBarcodes.length; i++) {
         if (newBarcode === newbBarcodes[i]) {
@@ -324,7 +331,7 @@ while (newBarcodeExist) {
         console.log(`Le code-barres ${newBarcode} appartient déjà à un autre produit. Veuillez réessayer.`);
     }
 }
-                      const newStatus = readlineSync.question(
+                      const newStatus = getValidInput(
                         "Nouveau statut du produit: "
                       );
           
@@ -348,7 +355,7 @@ while (newBarcodeExist) {
                       let  deleteId;
           
                       while (!cExists) {
-                        deleteId = readlineSync.question(`ID du produit à supprimer: `);
+                        deleteId = getValidInput(`ID du produit à supprimer: `);
                         deleteId = parseInt(deleteId);
                         for (let i = 0; i < proui.length; i++) {
                           if (deleteId === proui[i]) {
@@ -405,7 +412,7 @@ while (newBarcodeExist) {
                         let cId;
 
                         while (!cmdExist) {
-                        cId = readlineSync.question(`Entrez l'id de la commande : `);
+                        cId = getValidInput(`Entrez l'id de la commande : `);
                         cId = parseInt(cId);
                         for (let i = 0; i < comman.length; i++) {
                             if (cId === comman[i]) {
@@ -425,11 +432,11 @@ while (newBarcodeExist) {
                         break;
 
                     case "2":
-                        const datePurchase = readlineSync.question(
+                        const datePurchase = getValidInput(
                         "Entrez la date de la commande: "
                         );
 
-                        const deliveryAddress = readlineSync.question(
+                        const deliveryAddress = getValidInput(
                         `l'address de livraison:  `
                         );
                         const client = await orderModule.getClient();
@@ -437,7 +444,7 @@ while (newBarcodeExist) {
                         let customerId;
 
                         while (!clientExists) {
-                        customerId = readlineSync.questionInt(`l'id du client: `);
+                        customerId = getValidInput(`l'id du client: `);
 
                         for (let i = 0; i < client.length; i++) {
                             if (customerId === client[i]) {
@@ -452,12 +459,12 @@ while (newBarcodeExist) {
                         }
                         }
 
-                        const tracks = await orderModule.getNumber(); // Récupérer tous les numéros de suivi existants
+                        const tracks = await orderModule.getNumber(); 
                         let trackExist = true;
                         let track;
                         
                         while (trackExist) {
-                            track = readlineSync.question("Numéro de la commande: ");
+                            track = getValidInput("Numéro de la commande: ");
                             trackExist = false;
                             for (let i = 0; i < tracks.length; i++) {
                                 if (track === tracks[i]) {
@@ -471,7 +478,7 @@ while (newBarcodeExist) {
                             }
                         }
 
-                        const statusOrder = readlineSync.question(
+                        const statusOrder = getValidInput(
                         "status de la commande: "
                         );
                         const commande = {
@@ -496,7 +503,7 @@ while (newBarcodeExist) {
                         let produitId;
 
                         while (!produitExists) {
-                            produitId = details.produitId = readlineSync.question(
+                            produitId = details.produitId = getValidInput(
                             `Entrez l'id du produit : `
                             );
 
@@ -518,7 +525,7 @@ while (newBarcodeExist) {
                         
                         
                         while (true) {
-                            details.price = readlineSync.question("Entrez le prix du produit : ");
+                            details.price = getValidInput("Entrez le prix du produit : ");
                             if (!isNaN(details.price) && details.price.trim() !== "") {
                             details.price = parseFloat(details.price); 
                             break; 
@@ -527,7 +534,7 @@ while (newBarcodeExist) {
                         }
                         
                         while (true) {
-                            details.quantity = readlineSync.question("Entrez la quantité du produit : ");
+                            details.quantity = getValidInput("Entrez la quantité du produit : ");
                             if (!isNaN(details.quantity) && Number.isInteger(parseFloat(details.quantity)) && details.quantity.trim() !== "") {
                             details.quantity = parseInt(details.quantity); 
                             break; 
@@ -541,7 +548,7 @@ while (newBarcodeExist) {
                         mesDetails.push(details);
                         console.log("Détails de la commande:", mesDetails);
 
-                        const tmp = readlineSync.question(
+                        const tmp = getValidInput(
                             "Appuyez sur : \n A pour ajouter un autre produit; \n S pour enregistrer la commande; \n Z pour quitter : "
                         );
 
@@ -592,7 +599,7 @@ while (newBarcodeExist) {
                         let updateId;
 
                         while (!cmdExists) {
-                        updateId = readlineSync.question(`Entrez l'id de la commande : `);
+                        updateId = getValidInput(`Entrez l'id de la commande : `);
                         updateId = parseInt(updateId);
                         for (let i = 0; i < command.length; i++) {
                             if (updateId === command[i]) {
@@ -606,10 +613,10 @@ while (newBarcodeExist) {
                             console.log("Cette commande n'existe pas, veuillez réessayer.");
                         }
                         }
-                        const newDate = readlineSync.question(
+                        const newDate = getValidInput(
                         "Entrez la nouvelle date de la commande: "
                         );
-                        const newAdress = readlineSync.question(
+                        const newAdress = getValidInput(
                         "Nouvelle adresse de la livraison: "
                         );
                         const newClient = await orderModule.getClient();
@@ -617,7 +624,7 @@ while (newBarcodeExist) {
                         let nCustomerId;
 
                         while (!newClientExists) {
-                        nCustomerId = readlineSync.questionInt(`l'id du newClient: `);
+                        nCustomerId = getValidInput(`l'id du newClient: `);
 
                         for (let i = 0; i < newClient.length; i++) {
                             if (nCustomerId === newClient[i]) {
@@ -636,7 +643,7 @@ let newTrackExist = true;
 let newTrack;
 
 while (newTrackExist) {
-    newTrack = readlineSync.question("Nouveau numéro de suivi: ");
+    newTrack = getValidInput("Nouveau numéro de suivi: ");
     newTrackExist = false; 
     for (let i = 0; i < newTracks.length; i++) {
         if (newTrack === newTracks[i]) {
@@ -650,7 +657,7 @@ while (newTrackExist) {
     }
 }
 
-                        const newStatus = readlineSync.question(
+                        const newStatus = getValidInput(
                         "Nouveau statut de la commande: "
                         );
 
@@ -676,7 +683,7 @@ while (newTrackExist) {
                         let produitId;
 
                         while (!produitExists) {
-                            produitId = details.produitId = readlineSync.question(
+                            produitId = details.produitId = getValidInput(
                             `Entrez l'id du produit : `
                             );
 
@@ -695,22 +702,22 @@ while (newTrackExist) {
                             }
                         }
 
-                        details.newPrice = readlineSync.question(
+                        details.newPrice = getValidInput(
                             `Entrez le prix du produit : `
                         );
                         while (isNaN(details.newPrice) || details.newPrice <= 0) {
                             console.log("Le prix doit être un nombre valide.");
-                            details.newPrice = readlineSync.question(
+                            details.newPrice = getValidInput(
                             `Entrez le prix du produit : `
                             );
                         }
 
-                        details.newQuantity = readlineSync.question(
+                        details.newQuantity = getValidInput(
                             `Entrez la quantité du produit : `
                         );
                         while (isNaN(details.newQuantity) || details.newQuantity <= 0) {
                             console.log("La quantité doit être un nombre valide.");
-                            details.newQuantity = readlineSync.question(
+                            details.newQuantity = getValidInput(
                             `Entrez la quantité du produit : `
                             );
                         }
@@ -718,7 +725,7 @@ while (newTrackExist) {
                         mesNewDetails.push(details);
                         console.log("Nouveaux détails de la commande:", mesNewDetails);
 
-                        const newTmp = readlineSync.question(
+                        const newTmp = getValidInput(
                             "Appuyez sur : \n A pour ajouter un autre produit; \n S pour enregistrer la commande; \n Z pour quitter : "
                         );
 
@@ -776,7 +783,7 @@ while (newTrackExist) {
                         let deleteId;
 
                         while (!cmdExistss) {
-                        deleteId = readlineSync.question(`Entrez l'id de la commandes : `);
+                        deleteId = getValidInput(`Entrez l'id de la commandes : `);
                         deleteId = parseInt(deleteId);
                         for (let i = 0; i < commandes.length; i++) {
                             if (deleteId === commandes[i]) {
@@ -827,7 +834,7 @@ while (newTrackExist) {
                           let orderId;
               
                           while (!cmdExists) {
-                            orderId = readlineSync.question(`Entrez l'id de la commande : `);
+                            orderId = getValidInput(`Entrez l'id de la commande : `);
                             orderId = parseInt(orderId);
                             for (let i = 0; i < command.length; i++) {
                               if (orderId === command[i]) {
@@ -839,17 +846,17 @@ while (newTrackExist) {
                               console.log("Cette commande n'existe pas, veuillez réessayer.");
                             }
                           }
-                          const datePayement = readlineSync.question("Date du paiement: ");
+                          const datePayement = getValidInput("Date du paiement: ");
                           let amount;
                           while (true) {
-                            amount = readlineSync.question("le montant: ");
+                            amount = getValidInput("le montant: ");
                             if (!isNaN(amount) && amount.trim() !== "") {
                               amount = parseFloat(amount);
                               break;
                             }
                             console.log("Le montant doit etre un nombre.");
                           }
-                          const payementMethod = readlineSync.question(
+                          const payementMethod = getValidInput(
                             "Méthode de paiement : "
                           );
               
@@ -869,7 +876,7 @@ while (newTrackExist) {
                           let newOrderId;
               
                           while (!newCmdExists) {
-                            newOrderId = readlineSync.question(
+                            newOrderId = getValidInput(
                               `Entrez l'id de la commande à payer : `
                             );
                             newOrderId = parseInt(newOrderId);
@@ -886,19 +893,19 @@ while (newTrackExist) {
                             }
                           }
               
-                          const newDatePayement = readlineSync.question(
+                          const newDatePayement = getValidInput(
                             "Nouvelle date du paiement : "
                           );
                           let newAmount;
                           while (true) {
-                            newAmount = readlineSync.question("le montant: ");
+                            newAmount = getValidInput("le montant: ");
                             if (!isNaN(newAmount) && newAmount.trim() !== "") {
                               newAmount = parseFloat(newAmount);
                               break;
                             }
                             console.log("Le montant doit etre un nombre.");
                           }
-                          const newPayementMethod = readlineSync.question(
+                          const newPayementMethod = getValidInput(
                             "Nouvelle méthode de paiement : "
                           );
               
@@ -922,7 +929,7 @@ while (newTrackExist) {
                           let deleteId;
                 
                           while (!cmdExistss) {
-                            deleteId = readlineSync.question(`Entrez l'id du payement : `);
+                            deleteId = getValidInput(`Entrez l'id du payement : `);
                             deleteId = parseInt(deleteId);
                             for (let i = 0; i < pay.length; i++) {
                               if (deleteId === pay[i]) {
