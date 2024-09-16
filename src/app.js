@@ -306,9 +306,24 @@ async function main() {
                       const newcategory = readlineSync.question(
                         "Nouvelle catégorie du produit: "
                       );
-                      const newBarecode = readlineSync.question(
-                        "Nouveau code barre du produit: "
-                      );
+                      const newbBarcodes = await productModule.getCodeProduct();
+let newBarcodeExist = true;
+let newBarcode;
+
+while (newBarcodeExist) {
+    newBarcode = readlineSync.question("Nouveau code-barres: ");
+    newBarcodeExist = false; 
+    for (let i = 0; i < newbBarcodes.length; i++) {
+        if (newBarcode === newbBarcodes[i]) {
+            newBarcodeExist = true;
+            break;
+        }
+    }
+
+    if (newBarcodeExist) {
+        console.log(`Le code-barres ${newBarcode} appartient déjà à un autre produit. Veuillez réessayer.`);
+    }
+}
                       const newStatus = readlineSync.question(
                         "Nouveau statut du produit: "
                       );
@@ -320,7 +335,7 @@ async function main() {
                         newPrice,
                         newStock,
                         newcategory,
-                        newBarecode,
+                        newBarcode,
                         newStatus
                       );
                       console.log("produit modifié");
