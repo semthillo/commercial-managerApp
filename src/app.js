@@ -1,6 +1,6 @@
 const readlineSync = require("readline-sync");
 const customerModule = require("./customerManager");
-const productModule = require("./productManager");
+const productModule = require("./productManger");
 const orderModule = require("./orderManager");
 const paymentModule = require("./payementManager");
 
@@ -27,6 +27,89 @@ async function main() {
               console.log("5. Retourner Au Menu principal");
               console.log("6. Quitter");
               const choix = readlineSync.question("Choisissez une option :");
+
+              switch (choix) {
+                case "1":
+                  const customer = await customerModule.getCustomer();
+                  console.table(customer);
+                  main();
+                  break;
+                  case "2":
+                    const name = readlineSync.question("Nom du client: ");
+                    const address = readlineSync.question("Address du  client: ");
+                    const email = readlineSync.question("Email du client: ");
+                    const phone = readlineSync.question("Téléphone du client: ");
+                    const customerId = await customerModule.addCustomer(
+                      name,
+                      address,
+                      email,
+                      phone
+                    );
+                    console.log(`Client ajouté avec l'id ${customerId}`);
+                    main();
+                    break;
+
+                    case "3":
+            const clients = await orderModule.getClient();
+            let cmdExists = false;
+            let id;
+
+            while (!cmdExists) {
+              id = readlineSync.question(`Entrez l'id du client : `);
+              id = parseInt(id);
+              for (let i = 0; i < clients.length; i++) {
+                if (id === clients[i]) {
+                  cmdExists = true;
+                  console.log("Client trouvé, id:", id);
+                  break;
+                }
+              }
+
+              if (!cmdExists) {
+                console.log("Ce client n'existe pas, veuillez réessayer.");
+              }
+            }
+
+            const newName = readlineSync.question("Entrez le  nouveau nom: ");
+            const newAdress = readlineSync.question(
+              "Nouvelle Adress du client: "
+            );
+            const newEmail = readlineSync.question("Nouveau email: ");
+            const newPhone = readlineSync.question(
+              "Nouveau numero de téléphone: "
+            );
+
+            await customerModule.updateCustomer(
+              id,
+              newName,
+              newAdress,
+              newEmail,
+              newPhone
+            );
+            console.log("Client modifié");
+            main();
+            break;
+          case "4":
+            const deleteId = readlineSync.question(
+              "ID du client à supprimer: "
+            );
+            await customerModule.destroyCustomer(deleteId);
+
+            main();
+            break;
+          case "5":
+            main();
+            break;
+          case "6":
+            console.log("Au revoir !");
+            break;
+
+          default:
+            console.log("Veuillez choisir une option entre 1 et 6");
+            main();
+            break;
+        }
+
               break;
 
             case "2":
