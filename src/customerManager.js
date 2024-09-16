@@ -58,10 +58,10 @@ async function destroyCustomer(id) {
         console.log("Client supprimé");
         return result.affectedRows;
     } catch (error) {
-        // Affiche seulement le message d'erreur sans le traçage de la pile
+       
         console.error("Impossible de supprimer:", error.message);
     } finally {
-        connection.release(); // Assure la libération de la connexion
+        connection.release(); 
     }
 }
 
@@ -73,6 +73,16 @@ async function getClient(id) {
         }
         console.log(customer)
 }
+async function getEmailClient() {
+    const connection = await pool.getConnection();
+    const [customer] = await connection.execute('SELECT email FROM customers')
+        
+        const custs = customer.map(cust => cust.email); 
+    
+        
+        return custs;
+}
+getEmailClient().then(custs => console.log(custs));
 
 
 
@@ -83,6 +93,7 @@ module.exports = {
     addCustomer,
     destroyCustomer,
     updateCustomer,
-    getClient
+    getClient,
+    getEmailClient
 
 }
