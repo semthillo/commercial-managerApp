@@ -452,7 +452,24 @@ while (newBarcodeExist) {
                         }
                         }
 
-                        const track = readlineSync.question("numero de la commande: ");
+                        const tracks = await orderModule.getNumber(); // Récupérer tous les numéros de suivi existants
+                        let trackExist = true;
+                        let track;
+                        
+                        while (trackExist) {
+                            track = readlineSync.question("Numéro de la commande: ");
+                            trackExist = false;
+                            for (let i = 0; i < tracks.length; i++) {
+                                if (track === tracks[i]) {
+                                    trackExist = true;
+                                    break;
+                                }
+                            }
+                        
+                            if (trackExist) {
+                                console.log(`Le numéro de suivi ${track} existe déjà. Veuillez réessayer.`);
+                            }
+                        }
 
                         const statusOrder = readlineSync.question(
                         "status de la commande: "

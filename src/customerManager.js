@@ -71,7 +71,7 @@ async function getClient(id) {
         if (customer.length === 0) {
             throw new Error(`Le client avec l'ID ${id} n'existe pas`);
         }
-        console.log(customer)
+        
 }
 async function getEmailClient() {
     const connection = await pool.getConnection();

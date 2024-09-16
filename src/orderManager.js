@@ -172,7 +172,7 @@ async function getDetailByOrderId(orderId) {
     const [order] = await connection.execute('SELECT track_number FROM purchase_orders')
         
         const custs = order.map(cust => cust.track_number); 
-        console.log(custs);
+        
         
         
         return custs;
