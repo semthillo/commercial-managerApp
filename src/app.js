@@ -58,7 +58,26 @@ async function main() {
                             console.log(`L'email ${email} appartient déjà à un client. Veuillez réessayer.`);
                         }
                     }
-                    const phone = readlineSync.question("Téléphone du client: ");
+                    const phones = await customerModule.getPhoneClient();
+                    let phoneExist = true;
+                    let phone;
+                
+                    while (phoneExist) {
+                        phone = readlineSync.question("Téléphone du client: ");
+                        phoneExist = false; // Réinitialiser la variable avant de vérifier
+                
+                        // Vérifier si le numéro de téléphone existe déjà
+                        for (let i = 0; i < phones.length; i++) {
+                            if (phone === phones[i]) {
+                                phoneExist = true;
+                                break;
+                            }
+                        }
+                
+                        if (phoneExist) {
+                            console.log(`Le numéro de téléphone ${phone} appartient déjà à un client. Veuillez réessayer.`);
+                        }
+                    }
                     const customerId = await customerModule.addCustomer(
                       name,
                       address,
