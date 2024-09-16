@@ -50,6 +50,18 @@ async function main() {
                   console.log("5. Retourner Au Menu principal");
                   console.log("6. Quitter");
                   choixx = readlineSync.question("Choisissez une option :");
+                  break;
+
+                case "4":
+                    console.log("1. Liste des payements");
+                    console.log("2. Ajouter un payement");
+                    console.log("3. Modifier un payement");
+                    console.log("4. Supprimer un payement");
+                    console.log("5. Retourner Au Menu principal");
+                    console.log("6. Quitter");
+                    const choixP = readlineSync.question("Choisissez une option :");
+
+                
           
             }
 
