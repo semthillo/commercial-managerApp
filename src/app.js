@@ -220,7 +220,24 @@ async function main() {
           
                       console.log(`Prix: ${price}, Stock: ${stock}`);
                       const category = readlineSync.question("category du produit: ");
-                      const barcode = readlineSync.question("barre-code du produit: ");
+                      const barcodes = await productModule.getCodeProduct();
+                      let barcodeExist = true;
+                      let barcode;
+                  
+                      while (barcodeExist) {
+                          barcode = readlineSync.question("Barre-code du produit: ");
+                          barcodeExist = false; 
+                          for (let i = 0; i < barcodes.length; i++) {
+                              if (barcode === barcodes[i]) {
+                                  barcodeExist = true;
+                                  break;
+                              }
+                          }
+                  
+                          if (barcodeExist) {
+                              console.log(`Le code-barres ${barcode} appartient déjà à un autre produit. Veuillez réessayer.`);
+                          }
+                      }
                       const status = readlineSync.question("status du produit: ");
                       const productId = await productModule.addProduct(
                         name,
