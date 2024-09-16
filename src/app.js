@@ -439,26 +439,28 @@ while (newBarcodeExist) {
                         const deliveryAddress = getValidInput(
                         `l'address de livraison:  `
                         );
+                        
                         const client = await orderModule.getClient();
                         let clientExists = false;
                         let customerId;
-
+                        
                         while (!clientExists) {
-                        customerId = getValidInput(`l'id du client: `);
-
-                        for (let i = 0; i < client.length; i++) {
-                            if (customerId === client[i]) {
-                            clientExists = true;
-                            console.log("Client trouvé, id:", customerId);
-                            break;
+                            customerId = getValidInput(`l'id du client: `);
+                            
+                            for (let i = 0; i < client.length; i++) {
+                                
+                                if (Number(customerId) === client[i]) {
+                                    clientExists = true;
+                                    console.log("Client trouvé, id:", customerId);
+                                    break;
+                                }
+                            }
+                        
+                            if (!clientExists) {
+                                console.log("Ce client n'existe pas, veuillez réessayer.");
                             }
                         }
-
-                        if (!clientExists) {
-                            console.log("Ce client n'existe pas, veuillez réessayer.");
-                        }
-                        }
-
+                        
                         const tracks = await orderModule.getNumber(); 
                         let trackExist = true;
                         let track;
@@ -622,22 +624,24 @@ while (newBarcodeExist) {
                         const newClient = await orderModule.getClient();
                         let newClientExists = false;
                         let nCustomerId;
-
+                        
                         while (!newClientExists) {
-                        nCustomerId = getValidInput(`l'id du newClient: `);
-
-                        for (let i = 0; i < newClient.length; i++) {
-                            if (nCustomerId === newClient[i]) {
-                            newClientExists = true;
-                            console.log("newClient trouvé, id:", nCustomerId);
-                            break;
+                            nCustomerId = getValidInput(`l'id du newClient: `);
+                        
+                            for (let i = 0; i < newClient.length; i++) {
+                                
+                                if (Number(nCustomerId) === newClient[i]) {
+                                    newClientExists = true;
+                                    console.log("newClient trouvé, id:", nCustomerId);
+                                    break;
+                                }
+                            }
+                        
+                            if (!newClientExists) {
+                                console.log("Ce newClient n'existe pas, veuillez réessayer.");
                             }
                         }
-
-                        if (!newClientExists) {
-                            console.log("Ce newClient n'existe pas, veuillez réessayer.");
-                        }
-                        }
+                        
                         const newTracks = await orderModule.getNumber(); 
 let newTrackExist = true;
 let newTrack;

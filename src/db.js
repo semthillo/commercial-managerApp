@@ -8,13 +8,13 @@ const connPool = mysql.createPool({
   connectTimeout: 2000000,
 });
 
-connPool.getConnection()
-  .then((connection) => {
-    console.log("Connected");
-    connection.release(); 
-  })
-  .catch((error) => {
-    console.error('Connection failed:', error);
-  });
+// connPool.getConnection()
+//   .then((connection) => {
+//     console.log("Connected");
+//     connection.release(); 
+//   })
+//   .catch((error) => {
+//     console.error('Connection failed:', error);
+//   });
 
 module.exports = connPool;
