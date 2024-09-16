@@ -82,7 +82,19 @@ async function getEmailClient() {
         
         return custs;
 }
-getEmailClient().then(custs => console.log(custs));
+
+async function getPhoneClient() {
+    const connection = await pool.getConnection();
+    const [customer] = await connection.execute('SELECT phone FROM customers')
+        
+        const custs = customer.map(cust => cust.phone); 
+    
+        
+        return custs;
+}
+
+
+
 
 
 
