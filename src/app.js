@@ -61,7 +61,15 @@ async function main() {
                     console.log("6. Quitter");
                     const choixP = readlineSync.question("Choisissez une option :");
 
-                
+                    break;
+                    case "5":
+                      console.log("Au revoir !");
+                      break;
+              
+                    default:
+                      console.log("Veuillez choisir une option entre 1 et 6");
+                      main();
+                      break; 
           
             }
 
