@@ -688,8 +688,110 @@ async function main() {
                     console.log("5. Retourner Au Menu principal");
                     console.log("6. Quitter");
                     const choixP = readlineSync.question("Choisissez une option :");
-
-                    break;
+                    
+                    switch (choixP) {
+                        case "1":
+                          const payments = await paymentModule.getPayement();
+                          console.log(payments);
+                          main();
+                          break;
+              
+                        case "2":
+                          const command = await orderModule.getOrderById();
+                          let cmdExists = false;
+                          let orderId;
+              
+                          while (!cmdExists) {
+                            orderId = readlineSync.question(`Entrez l'id de la commande : `);
+                            orderId = parseInt(orderId);
+                            for (let i = 0; i < command.length; i++) {
+                              if (orderId === command[i]) {
+                                cmdExists = true;
+                                console.log("commande trouvé, id:", orderId);
+                              }
+                            }
+                            if (!cmdExists) {
+                              console.log("Cette commande n'existe pas, veuillez réessayer.");
+                            }
+                          }
+                          const datePayement = readlineSync.question("Date du paiement: ");
+                          let amount;
+                          while (true) {
+                            amount = readlineSync.question("le montant: ");
+                            if (!isNaN(amount) && amount.trim() !== "") {
+                              amount = parseFloat(amount);
+                              break;
+                            }
+                            console.log("Le montant doit etre un nombre.");
+                          }
+                          const payementMethod = readlineSync.question(
+                            "Méthode de paiement : "
+                          );
+              
+                          const paymentId = await paymentModule.addPayement(
+                            orderId,
+                            datePayement,
+                            amount,
+                            payementMethod
+                          );
+                          console.log(`Paiement ajouté avec l'ID ${paymentId}`);
+                          main();
+                          break;
+              
+                        case "3":
+                          const newCommand = await orderModule.getOrderById();
+                          let newCmdExists = false;
+                          let newOrderId;
+              
+                          while (!newCmdExists) {
+                            newOrderId = readlineSync.question(
+                              `Entrez l'id de la commande à payer : `
+                            );
+                            newOrderId = parseInt(newOrderId);
+              
+                            for (let i = 0; i < newCommand.length; i++) {
+                              if (newOrderId === newCommand[i]) {
+                                newCmdExists = true;
+                                console.log("Commande trouvée, id:", newOrderId);
+                              }
+                            }
+              
+                            if (!newCmdExists) {
+                              console.log("Cette commande n'existe pas, veuillez réessayer.");
+                            }
+                          }
+              
+                          const newDatePayement = readlineSync.question(
+                            "Nouvelle date du paiement : "
+                          );
+                          let newAmount;
+                          while (true) {
+                            newAmount = readlineSync.question("le montant: ");
+                            if (!isNaN(newAmount) && newAmount.trim() !== "") {
+                              newAmount = parseFloat(newAmount);
+                              break;
+                            }
+                            console.log("Le montant doit etre un nombre.");
+                          }
+                          const newPayementMethod = readlineSync.question(
+                            "Nouvelle méthode de paiement : "
+                          );
+              
+                          const newPayement = {
+                            date_payement: newDatePayement,
+                            amount: newAmount,
+                            payement_method: newPayementMethod,
+                            order_id: newOrderId,
+                          };
+              
+                          await paymentModule.updatePayement(newPayement);
+              
+                          console.log("Paiement modifié avec succès.");
+              
+                          main();
+                          break;
+                        }
+                        break;
                     case "5":
                       console.log("Au revoir !");
                       break;
