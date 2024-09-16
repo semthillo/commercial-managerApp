@@ -77,12 +77,7 @@ async function getOrderById() {
 
     }
      
-    
-    
-    
-
-
-
+   
 
      async function updateOrder(id, orderDetails) {
         const connection = await pool.getConnection();
@@ -172,6 +167,16 @@ async function getDetailByOrderId(orderId) {
     }
   }
   
+  async function getNumber() {
+    const connection = await pool.getConnection();
+    const [order] = await connection.execute('SELECT track_number FROM purchase_orders')
+        
+        const custs = order.map(cust => cust.track_number); 
+        console.log(custs);
+        
+        
+        return custs;
+}
 
 
 
@@ -185,6 +190,7 @@ module.exports = {
     getPrix,
     getDetailByOrderId,
     updateDetail,
-    getOrderById
+    getOrderById,
+    getNumber
 
 }
