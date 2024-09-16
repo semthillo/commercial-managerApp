@@ -37,7 +37,27 @@ async function main() {
                   case "2":
                     const name = readlineSync.question("Nom du client: ");
                     const address = readlineSync.question("Address du  client: ");
-                    const email = readlineSync.question("Email du client: ");
+                    const mail = await customerModule.getEmailClient()
+                    
+                    let mailExist = true;
+                    let email;
+                
+                    while (mailExist) {
+                        email = readlineSync.question("Email du client: ");
+                        mailExist = false;
+                
+                        
+                        for (let i = 0; i < mail.length; i++) {
+                            if (email === mail[i]) {
+                                mailExist = true;
+                                break;
+                            }
+                        }
+                
+                        if (mailExist) {
+                            console.log(`L'email ${email} appartient déjà à un client. Veuillez réessayer.`);
+                        }
+                    }
                     const phone = readlineSync.question("Téléphone du client: ");
                     const customerId = await customerModule.addCustomer(
                       name,
